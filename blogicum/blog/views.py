@@ -51,9 +51,16 @@ def index(request):
     return render(request, template, context)
 
 
-def post_detail(request, id):
+def post_detail(request, post_id):
+    try:
+        posts[post_id]
+    except IndexError:
+        raise Http404(f"Нет записи в блоге с №{post_id}")
     template = 'blog/detail.html'
-    context = {'post': posts[id]}
+    for post in posts:
+        if post['id'] == post_id:
+            context = {'post': post}
+            break
     return render(request, template, context)
 
 
