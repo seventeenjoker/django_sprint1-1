@@ -53,12 +53,13 @@ def index(request):
 
 def post_detail(request, post_id):
     template = 'blog/detail.html'
+    context = {}
     for i, post in enumerate(posts):
         if post['id'] == post_id:
             context = {'post': post}
             break
-        if i == len(posts) - 1:
-            raise Http404(f"Нет записи в блоге с №{post_id}")
+    if not context:
+        raise Http404(f"Нет записи в блоге с №{post_id}")
     return render(request, template, context)
 
 
